@@ -52,8 +52,16 @@ class Reporter < ActiveRecord::Base
       i[:custom_fields][custom_field.custom_field[:name]] = custom_field.value
     end
 
+    u = pick(user, [:login, :mail, :firstname, :lastname, :id])
+
+    u[:custom_fields] = {}
+
+    user.custom_field_values.each do |custom_field|
+      u[:custom_fields][custom_field.custom_field[:name]] = custom_field.value
+    end
+
     data = {
-        :user => pick(user, [:login, :mail, :firstname, :lastname, :id]),
+        :user => u,
         :issue_id => params[:issue_id],
         :project_id => time_entry[:project_id],
         :user_id => user[:id],

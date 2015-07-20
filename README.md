@@ -13,7 +13,8 @@ Plugin has been tested on Redmine 2.4.x and 2.6.x. But should be compatible with
 The REST endpoint can be configured in the plugin configuration screen.
 
 ## Project custom fields
-If you need additional information about your project in the 
+If you need additional information about your project or issues in the backend, the custom fields will be sent to your
+REST endpoint as well.
 
 ## REST backend format
 The plugin will HTTP POST to the REST backend in this JSON format:
