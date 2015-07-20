@@ -15,7 +15,7 @@ class Reporter < ActiveRecord::Base
     project = Project.find(time_entry[:project_id])
     issue = Issue.find(params[:issue_id])
 
-    Rails.logger.warn(issue.inspect)
+    #Rails.logger.warn(issue.inspect)
 
     p = pick(project, [:description, :homepage, :id, :identifier, :name, :parent_id, :status])
     p[:custom_fields] = {}
@@ -56,7 +56,7 @@ class Reporter < ActiveRecord::Base
                             ])
     }
 
-    Rails.logger.warn(data)
+    #Rails.logger.warn(data)
 
     post_to_server(data)
   end
