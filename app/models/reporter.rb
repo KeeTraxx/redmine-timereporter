@@ -60,13 +60,15 @@ class Reporter < ActiveRecord::Base
       u[:custom_fields][custom_field.custom_field[:name]] = custom_field.value
     end
 
+    Rails.logger.warn(time_entry.inspect)
+
     data = {
         :user => u,
         :issue_id => params[:issue_id],
         :project_id => time_entry[:project_id],
         :user_id => user[:id],
         :hours => time_entry[:hours],
-        :time_entry => pick(time_entry, [:comments, :hours, :issue_id, :project_id, :tmonth, :tweek, :tyear]),
+        :time_entry => pick(time_entry, [:comments, :hours, :issue_id, :project_id, :spent_on, :tmonth, :tweek, :tyear]),
         :project => p,
         :issue => i
     }
@@ -74,24 +76,6 @@ class Reporter < ActiveRecord::Base
     #Rails.logger.warn(data)
 
     post_to_server(data)
-  end
-
-  # Should be called by the Redmine Hook "controller_issues_edit_after_save"
-  def self.send_issue_update(user, issueId, journal)
-    changes = []
-    journal.details.each do |j|
-      changes.push({
-                       "property" => j.prop_key,
-                       "value" => j.value
-                   })
-    end
-    post_to_server({
-                       "type" => "issue",
-                       "user" => u.to_json,
-                       "issue" => issueId,
-                       "comment" => journal.notes,
-                       "changes" => changes.to_json,
-                   })
   end
 
   # HTTP POST any kind of data to server (preferably JSON)
