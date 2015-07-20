@@ -85,7 +85,10 @@ class Reporter < ActiveRecord::Base
     req = Net::HTTP::Post.new(uri, initheader = {'Content-Type' => 'application/json'})
     #req.basic_auth @user, @pass
     req.body = data.to_json
-    response = Net::HTTP.new(uri.host, uri.port).start { |http| http.request(req) }
+    http = Net::HTTP.new(uri.host, uri.port)
+    http.use_ssl = (uri.scheme == "https")
+
+    response = http.start { |http| http.request(req) }
 
     return response
   end
