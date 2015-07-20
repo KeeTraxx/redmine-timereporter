@@ -10,7 +10,7 @@ Redmine::Plugin.register :reporter do
   url 'https://github.com/KeeTraxx/redmine-timereporter'
   author_url 'http://www.tran-engineering.ch'
 
-  settings :default => {'callback_url' => 'http://example.com/callback/' },
+  settings :default => {'callback_url' => 'https://debugserver.herokuapp.com/mycallback' },
            :partial => 'settings/reporter_settings'
 
 end

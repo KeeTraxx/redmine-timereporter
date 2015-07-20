@@ -25,6 +25,33 @@ class Reporter < ActiveRecord::Base
 
     #Rails.logger.warn(project.custom_field_values)
 
+    i = pick(issue, [
+                      :tracker_id,
+                      :project_id,
+                      :subject,
+                      :description,
+                      :due_date,
+                      :category_id,
+                      :status_id,
+                      :assigned_to_id,
+                      :priority_id,
+                      :fixed_version_id,
+                      :author_id,
+                      :created_on,
+                      :updated_on,
+                      :start_date,
+                      :done_ratio,
+                      :estimated_hours,
+                      :parent_id,
+                      :root_id,
+                      :closed_on
+                  ])
+
+    i[:custom_fields] = {}
+    issue.custom_field_values.each do |custom_field|
+      i[:custom_fields][custom_field.custom_field[:name]] = custom_field.value
+    end
+
     data = {
         :user => pick(user, [:login, :mail, :firstname, :lastname, :id]),
         :issue_id => params[:issue_id],
@@ -33,27 +60,7 @@ class Reporter < ActiveRecord::Base
         :hours => time_entry[:hours],
         :time_entry => pick(time_entry, [:comments, :hours, :issue_id, :project_id, :tmonth, :tweek, :tyear]),
         :project => p,
-        :issue => pick(issue, [
-                                :tracker_id,
-                                :project_id,
-                                :subject,
-                                :description,
-                                :due_date,
-                                :category_id,
-                                :status_id,
-                                :assigned_to_id,
-                                :priority_id,
-                                :fixed_version_id,
-                                :author_id,
-                                :created_on,
-                                :updated_on,
-                                :start_date,
-                                :done_ratio,
-                                :estimated_hours,
-                                :parent_id,
-                                :root_id,
-                                :closed_on
-                            ])
+        :issue => i
     }
 
     #Rails.logger.warn(data)
