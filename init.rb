@@ -1,6 +1,16 @@
 require 'redmine'
 require_dependency 'reporter_issue_change_listener'
 #require_dependency 'reporter_project_settings'
+require_dependency 'time_entry_patch'
+
+ActionDispatch::Callbacks.to_prepare do
+  require_dependency 'time_entry'
+  # Guards against including the module multiple time (like in tests)
+  # and registering multiple callbacks
+  unless TimeEntry.included_modules.include? TimeEntryPatch
+    TimeEntry.send(:include, TimeEntryPatch)
+  end
+end
 
 Redmine::Plugin.register :reporter do
   name 'Time reporter plugin'
