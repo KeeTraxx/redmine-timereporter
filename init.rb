@@ -1,6 +1,4 @@
 require 'redmine'
-require_dependency 'reporter_issue_change_listener'
-#require_dependency 'reporter_project_settings'
 require_dependency 'time_entry_patch'
 
 ActionDispatch::Callbacks.to_prepare do
