@@ -126,6 +126,20 @@ module TimeEntryPatch
           :issue => i
       }
 
+      unless issue[:fixed_version_id].nil?
+        version = Version.find(issue[:fixed_version_id])
+        Rails.logger.warn(version.inspect)
+        v = self.class.pick(version, [:project_id, :name, :description, :effective_date, :created_on, :updated_on, :wiki_page_title, :status, :sharing])
+
+        v[:custom_fields] = {}
+        version.custom_field_values.each do |custom_field|
+          v[:custom_fields][custom_field.custom_field[:name]] = custom_field.value
+        end
+
+        data[:version] = v
+      end
+
+
       # Send everything to the server
       self.class.post_to_server(data)
 
