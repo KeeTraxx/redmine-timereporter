@@ -78,5 +78,19 @@ The plugin will HTTP POST to the REST backend in this JSON format:
        "root_id": 1,
        "closed_on": null,
        "custom_fields": {}
-     }
+     },
+     "version": {
+         "project_id": 1,
+         "name": "1.0.0",
+         "description": "Version Stuff",
+         "effective_date": null,
+         "created_on": "2015-07-23T11:41:18Z",
+         "updated_on": "2015-07-23T11:41:18Z",
+         "wiki_page_title": "",
+         "status": "open",
+         "sharing": "none",
+         "custom_fields": {
+           "customversionfield": "custom data version stuff field"
+         }
+       }
     }
